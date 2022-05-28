@@ -1,12 +1,12 @@
 package com.example.bankapp.converter;
 
 import com.example.bankapp.core.utils.CreatorService;
-import com.example.bankapp.entity.BankCard;
-import com.example.bankapp.entity.DrawingAccount;
+import com.example.bankapp.entity.*;
+import com.example.bankapp.entity.enums.AccountType;
+import com.example.bankapp.helper.UserHelper;
 import com.example.bankapp.security.UserDetail;
 import com.example.bankapp.dto.request.CreateDrawingAccountRequestDTO;
 import com.example.bankapp.exception.BusinessServiceOperationException;
-import com.example.bankapp.entity.Customer;
 import com.example.bankapp.repository.CustomerRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,27 +24,30 @@ public class DrawingAccountConverter {
 
     private final CustomerRepository customerRepository;
     private final CreatorService creatorService;
+    private final UserHelper userHelper;
 
     public DrawingAccount toDrawingAccount(CreateDrawingAccountRequestDTO createDrawingAccountRequestDTO){
-        UserDetail userDetail = (UserDetail) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        Customer customer = customerRepository.findById(userDetail.getId()).orElseThrow(
-                ()-> new BusinessServiceOperationException.CustomerNotFoundException("Customer Not Found")
-        );
+        Customer customer = userHelper.getLoggedInCustomer();
         BankCard bankCard = new BankCard();
-        bankCard.setCustomer(customer);
-        bankCard.setCardNo(creatorService.createCardNo());
-        bankCard.setCvv(creatorService.createCvv());
-        bankCard.setExpirationDate(creatorService.createExpirationDate());
-
+        Card card = new Card();
+        card.setCustomer(customer);
+        card.setCardNo(creatorService.createCardNo());
+        card.setCvv(creatorService.createCvv());
+        card.setExpirationDate(creatorService.createExpirationDate());
+        bankCard.setCard(card);
+        bankCard.setBalance(BigDecimal.ZERO);
         DrawingAccount drawingAccount = new DrawingAccount();
-        drawingAccount.setCurrency(createDrawingAccountRequestDTO.currency());
-        drawingAccount.setCustomer(customer);
-        drawingAccount.setCreatedAt(new Date());
-        drawingAccount.setIban(creatorService.createIban());
-        drawingAccount.setBalance(BigDecimal.ZERO);
+        Account account = new Account();
+        account.setCurrency(createDrawingAccountRequestDTO.currency());
+        account.setCreatedAt(new Date());
+        account.setIban(creatorService.createIban());
+        account.setBalance(BigDecimal.valueOf(5000));
+        account.setDeleted(false);
+        account.setCustomer(customer);
+        account.setAccountType(AccountType.DRAWING);
         drawingAccount.setBankCard(bankCard);
-        drawingAccount.setDeleted(false);
-        drawingAccount.setCreatedAt(new Date());
+        drawingAccount.setAccount(account);
+
         return drawingAccount;
     }
 

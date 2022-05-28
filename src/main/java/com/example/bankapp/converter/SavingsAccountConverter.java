@@ -2,9 +2,12 @@ package com.example.bankapp.converter;
 
 import com.example.bankapp.core.utils.CreatorService;
 import com.example.bankapp.dto.request.CreateSavingsAccountRequestDTO;
+import com.example.bankapp.entity.Account;
 import com.example.bankapp.entity.Customer;
 import com.example.bankapp.entity.SavingsAccount;
+import com.example.bankapp.entity.enums.AccountType;
 import com.example.bankapp.exception.BusinessServiceOperationException;
+import com.example.bankapp.helper.UserHelper;
 import com.example.bankapp.repository.CustomerRepository;
 import com.example.bankapp.security.UserDetail;
 import lombok.RequiredArgsConstructor;
@@ -20,20 +23,20 @@ public class SavingsAccountConverter {
 
     private final CustomerRepository customerRepository;
     private final CreatorService creatorService;
+    private final UserHelper userHelper;
 
     public SavingsAccount toSavingsAccount(CreateSavingsAccountRequestDTO createSavingsAccountRequestDTO){
-        UserDetail userDetail = (UserDetail) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        Customer customer = customerRepository.findById(userDetail.getId()).orElseThrow(
-                ()-> new BusinessServiceOperationException.CustomerNotFoundException("Customer Not Found")
-        );
+        Customer customer = userHelper.getLoggedInCustomer();
         SavingsAccount savingsAccount = new SavingsAccount();
-        savingsAccount.setBalance(BigDecimal.ZERO);
-        savingsAccount.setCurrency(createSavingsAccountRequestDTO.currency());
-        savingsAccount.setCreatedAt(new Date());
-        savingsAccount.setIban(creatorService.createIban());
-        savingsAccount.setDeleted(false);
-        savingsAccount.setCustomer(customer);
-
+        Account account = new Account();
+        account.setBalance(BigDecimal.ZERO);
+        account.setCurrency(createSavingsAccountRequestDTO.currency());
+        account.setIban(creatorService.createIban());
+        account.setCreatedAt(new Date());
+        account.setDeleted(false);
+        account.setCustomer(customer);
+        account.setAccountType(AccountType.SAVINGS);
+        savingsAccount.setAccount(account);
         return savingsAccount;
     }
 }

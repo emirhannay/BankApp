@@ -1,5 +1,6 @@
 package com.example.bankapp.service;
 
+import com.example.bankapp.entity.enums.Currency;
 import com.example.bankapp.model.ExchangeRateApiData;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -20,7 +21,7 @@ public class ExchangeRateApiAdaptorImpl implements ExchangeRateApiAdaptor{
         this.restTemplate = restTemplate;
     }
 
-    public ExchangeRateApiData getExchangeRate(String currency){
+    public ExchangeRateApiData getExchangeRates(Currency currency){
         HttpHeaders headers= new HttpHeaders();
         headers.set("apikey","K88D3WKrakMkOQZ6p6KnW8ba0XC17LLK");
         HttpEntity<String> entity = new HttpEntity<>("paramters",headers);

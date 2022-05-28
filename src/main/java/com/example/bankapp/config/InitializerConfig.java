@@ -1,5 +1,6 @@
 package com.example.bankapp.config;
 
+import com.example.bankapp.entity.Role;
 import com.example.bankapp.entity.enums.Currency;
 import com.example.bankapp.repository.DrawingAccountRepository;
 import com.example.bankapp.entity.DrawingAccount;
@@ -8,6 +9,7 @@ import com.example.bankapp.entity.User;
 import com.example.bankapp.entity.enums.UserStatus;
 import com.example.bankapp.entity.enums.UserType;
 import com.example.bankapp.repository.CustomerRepository;
+import com.example.bankapp.repository.RoleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -18,24 +20,17 @@ import javax.annotation.PostConstruct;
 @RequiredArgsConstructor
 public class InitializerConfig {
 
-    private final CustomerRepository customerRepository;
-    private final DrawingAccountRepository drawingAccountRepository;
+    private final RoleRepository roleRepository;
 
     @PostConstruct
     public void onInit() {
-        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        Customer customer = new Customer();
-        User user = new User();
-        user.setEmail("emir@hotmail.com");
-        user.setPassword("12345");
-        user.setUserStatus(UserStatus.ACTIVE);
-        user.setUserType(UserType.CUSTOMER);
-        DrawingAccount drawingAccount = new DrawingAccount();
-        drawingAccount.setIban("TR1515156165561");
-        drawingAccount.setCustomer(customer);
-        drawingAccount.setCurrency(Currency.TRY);
-        customerRepository.save(customer);
-        drawingAccountRepository.save(drawingAccount);
+        Role role = new Role();
+        role.setName("ADMIN");
+        Role role2 = new Role();
+        role2.setName("CUSTOMER");
+
+        roleRepository.save(role);
+        roleRepository.save(role2);
 
     }
 }

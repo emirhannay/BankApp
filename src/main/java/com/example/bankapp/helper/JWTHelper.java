@@ -15,6 +15,8 @@ import org.springframework.util.StringUtils;
 
 import java.time.Instant;
 import java.util.Date;
+import java.util.List;
+import java.util.Set;
 
 @Component
 @Getter
@@ -27,7 +29,7 @@ public class JWTHelper {
     @Value("${ssja.jwt.expires-in}")
     private long expiresIn;
 
-    public String generate(String email) {
+    public String generate(String email, List<String> roles) {
         if (!StringUtils.hasLength(email)) {
             throw new IllegalArgumentException("Email can not be null or empty");
         }
@@ -35,6 +37,7 @@ public class JWTHelper {
                 .withIssuedAt(new Date())
                 .withExpiresAt(new Date(Date.from(Instant.now()).getTime() + expiresIn))
                 .withClaim("email", email)
+                .withClaim("roles",roles)
                 .sign(Algorithm.HMAC512(secretKey));
     }
 

@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.util.Date;
 
 @Entity
@@ -12,13 +13,10 @@ import java.util.Date;
 @Getter
 public class BankCard extends BaseModel {
 
-    private String cardNo;
-    @Temporal(value = TemporalType.DATE)
-    private Date expirationDate;
-    private String cvv;
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "customer_id",nullable = false)
-    private Customer customer;
+    private BigDecimal balance;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    private Card card;
 
 
 

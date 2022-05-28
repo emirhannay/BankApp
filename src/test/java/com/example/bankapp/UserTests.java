@@ -1,19 +1,11 @@
 package com.example.bankapp;
 
-import com.example.bankapp.dto.request.CreateCustomerRequestDTO;
-import com.example.bankapp.entity.Customer;
-import com.example.bankapp.entity.User;
-import com.example.bankapp.entity.enums.UserStatus;
-import com.example.bankapp.entity.enums.UserType;
 import com.example.bankapp.repository.CustomerRepository;
-import com.example.bankapp.service.CustomerService;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.Date;
+
 
 @SpringBootTest
 class UserTests {
@@ -25,7 +17,7 @@ class UserTests {
 
     @Test
     void whenSaveCustomerCalledWithValidRequest_itShouldX() {
-        CreateCustomerRequestDTO createCustomerRequestDTO = new CreateCustomerRequestDTO(
+       /* CreateCustomerRequestDTO createCustomerRequestDTO = new CreateCustomerRequestDTO(
                 "test@hotmail.com","testpass"
         );
 
@@ -39,7 +31,7 @@ class UserTests {
         user.setDeleted(false);
         customer.setUser(user);
         Assertions.assertNotNull(customer.getId(), () -> "Customer id shouldn't be null");
-        customerRepository.save(customer);
+        customerRepository.save(customer); */
 
 
         /*

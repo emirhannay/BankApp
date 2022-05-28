@@ -16,26 +16,15 @@ import java.util.Set;
 @Table
 public class Customer extends BaseModel {
 
-
     @OneToOne(cascade = CascadeType.ALL)
     private User user;
-    @Column(nullable = false)
+    @Column(nullable = false,unique = true, length = 11)
     private String identityNo;
 
-    @OneToMany(mappedBy = "customer")
-    private Set<DrawingAccount> drawingAccounts;
-    @OneToMany(mappedBy = "customer")
-    private Set<SavingsAccount> savingsAccounts;
+    @OneToMany(mappedBy = "customer", cascade =  CascadeType.REMOVE)
+    private Set<Account> accounts;
 
-    @OneToMany(mappedBy = "customer")
-    private Set<BankCard> bankCard;
-
-
-    @Temporal(value = TemporalType.TIMESTAMP)
-    private Date lastSuccessfullyLoggedInTime;
-    @Temporal(value = TemporalType.TIMESTAMP)
-    private Date lastFailureLoggedInTime;
-
-
+    @OneToMany(mappedBy = "customer", cascade =  CascadeType.REMOVE)
+    private Set<Card> cards;
 
 }

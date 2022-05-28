@@ -1,6 +1,7 @@
 package com.example.bankapp.controller;
 
 
+import com.example.bankapp.security.UserDetail;
 import com.example.bankapp.validator.AuthenticationRequestValidator;
 import com.example.bankapp.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -11,8 +12,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api")
@@ -31,7 +35,9 @@ public class AuthenticationController {
         authenticationRequestValidator.validate(authenticationRequest);
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authenticationRequest.getEmail(), authenticationRequest.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        String token = jwtHelper.generate(authenticationRequest.getEmail());
+        UserDetail userDetail = (UserDetail) authentication.getPrincipal();
+        String token = jwtHelper.generate(authenticationRequest.getEmail()
+                ,authentication.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()));
 
         return ResponseEntity.ok(new AuthenticationResponse(token));
     }

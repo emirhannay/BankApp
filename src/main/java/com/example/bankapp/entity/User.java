@@ -9,6 +9,9 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -20,6 +23,12 @@ public class User extends BaseExtendedModel {
     @Column(nullable = false)
     private String password;
 
+    @Column(nullable = false)
+    private String name;
+
+    @Column(nullable = false)
+    private String phoneNumber;
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private UserType userType;
@@ -28,6 +37,17 @@ public class User extends BaseExtendedModel {
     @NotNull
     @Column(nullable = false)
     private UserStatus userStatus = UserStatus.ACTIVE;
+
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+    @JoinTable(name = "user_role",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles = new HashSet<>();
+
+    @Temporal(value = TemporalType.TIMESTAMP)
+    private Date lastSuccessfullyLoggedInTime;
+    @Temporal(value = TemporalType.TIMESTAMP)
+    private Date lastFailureLoggedInTime;
 
     public void lockUser() {
         this.userStatus = UserStatus.LOCKED;
