@@ -44,11 +44,6 @@ public class User extends BaseExtendedModel {
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
 
-    @Temporal(value = TemporalType.TIMESTAMP)
-    private Date lastSuccessfullyLoggedInTime;
-    @Temporal(value = TemporalType.TIMESTAMP)
-    private Date lastFailureLoggedInTime;
-
     public void lockUser() {
         this.userStatus = UserStatus.LOCKED;
     }

@@ -33,7 +33,6 @@ public class SavingsAccountConverter {
         account.setCurrency(createSavingsAccountRequestDTO.currency());
         account.setIban(creatorService.createIban());
         account.setCreatedAt(new Date());
-        account.setDeleted(false);
         account.setCustomer(customer);
         account.setAccountType(AccountType.SAVINGS);
         savingsAccount.setAccount(account);

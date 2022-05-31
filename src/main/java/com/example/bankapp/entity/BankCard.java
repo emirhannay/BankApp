@@ -15,7 +15,7 @@ public class BankCard extends BaseModel {
 
     private BigDecimal balance;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL,optional = false)
     private Card card;
 
 

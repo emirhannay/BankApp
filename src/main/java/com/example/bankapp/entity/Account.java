@@ -3,6 +3,8 @@ package com.example.bankapp.entity;
 import com.example.bankapp.entity.enums.AccountType;
 import com.example.bankapp.entity.enums.Currency;
 import com.example.bankapp.model.BaseExtendedModel;
+import com.example.bankapp.model.BaseExtendedModelWithoutDeleted;
+import com.example.bankapp.model.BaseModel;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,7 +15,7 @@ import java.math.BigDecimal;
 @Entity
 @Getter
 @Setter
-public class Account extends BaseExtendedModel {
+public class Account extends BaseExtendedModelWithoutDeleted {
     @Column(length = 26,nullable = false)
     private String iban;
 

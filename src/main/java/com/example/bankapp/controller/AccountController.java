@@ -1,8 +1,6 @@
 package com.example.bankapp.controller;
 
-import com.example.bankapp.dto.request.CreateDrawingAccountRequestDTO;
 import com.example.bankapp.model.SendMoneyRequest;
-import com.example.bankapp.repository.AccountRepository;
 import com.example.bankapp.service.AccountService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -20,10 +18,10 @@ public class AccountController {
     private final AccountService accountService;
 
     @PostMapping
-    public ResponseEntity<?> create(@RequestBody SendMoneyRequest sendMoneyRequest){
+    public ResponseEntity<?> sendMoney(@RequestBody SendMoneyRequest sendMoneyRequest){
         accountService.sendMoney(sendMoneyRequest);
 
-        return ResponseEntity.ok().body("SUCCESSFULL");
+        return ResponseEntity.ok().body("Money transfer successfully");
 
     }
 

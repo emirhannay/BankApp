@@ -8,12 +8,16 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.Date;
+import java.util.Set;
 
 @Entity
 @Getter
 @Setter
 public class SavingsAccount extends BaseModel {
 
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "savingsAccount")
+    private Set<SavingsAccountMaturity> savingsAccountMaturity;
 
     @OneToOne(cascade = CascadeType.ALL)
     private Account account;

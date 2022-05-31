@@ -64,7 +64,7 @@ public class AccountServiceImpl implements AccountService{
         }
         else {
             senderAccount.setBalance(senderAccount.getBalance().subtract(moneyToBeSent));
-            moneyToBeSent = moneyToBeSent.multiply(getExchangeRate(senderAccount,receiverAccount));
+            moneyToBeSent = moneyToBeSent.multiply(getExchangeRateForTransfer(senderAccount,receiverAccount));
             receiverAccount.setBalance(receiverAccount.getBalance().add(moneyToBeSent));
         }
         accountRepository.save(senderAccount);
@@ -99,7 +99,7 @@ public class AccountServiceImpl implements AccountService{
             return false;
         }
     }
-    public BigDecimal getExchangeRate(Account senderAccount,Account receiverAccount){
+    public BigDecimal getExchangeRateForTransfer(Account senderAccount, Account receiverAccount){
         ExchangeRateApiData exchangeRateApiData = exchangeRateApiAdaptor.getExchangeRates(senderAccount.getCurrency());
         if(receiverAccount.getCurrency() == Currency.TRY){
             return exchangeRateApiData.getRates().getTl();

@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Set;
 
@@ -20,6 +21,8 @@ public class Customer extends BaseModel {
     private User user;
     @Column(nullable = false,unique = true, length = 11)
     private String identityNo;
+    @Column(nullable = false)
+    private BigDecimal monthlyEarning;
 
     @OneToMany(mappedBy = "customer", cascade =  CascadeType.REMOVE)
     private Set<Account> accounts;

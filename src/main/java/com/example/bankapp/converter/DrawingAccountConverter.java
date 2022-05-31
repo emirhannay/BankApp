@@ -3,6 +3,7 @@ package com.example.bankapp.converter;
 import com.example.bankapp.core.utils.CreatorService;
 import com.example.bankapp.entity.*;
 import com.example.bankapp.entity.enums.AccountType;
+import com.example.bankapp.entity.enums.CardType;
 import com.example.bankapp.helper.UserHelper;
 import com.example.bankapp.security.UserDetail;
 import com.example.bankapp.dto.request.CreateDrawingAccountRequestDTO;
@@ -34,6 +35,7 @@ public class DrawingAccountConverter {
         card.setCardNo(creatorService.createCardNo());
         card.setCvv(creatorService.createCvv());
         card.setExpirationDate(creatorService.createExpirationDate());
+        card.setCardType(CardType.BANK);
         bankCard.setCard(card);
         bankCard.setBalance(BigDecimal.ZERO);
         DrawingAccount drawingAccount = new DrawingAccount();
@@ -42,7 +44,6 @@ public class DrawingAccountConverter {
         account.setCreatedAt(new Date());
         account.setIban(creatorService.createIban());
         account.setBalance(BigDecimal.valueOf(5000));
-        account.setDeleted(false);
         account.setCustomer(customer);
         account.setAccountType(AccountType.DRAWING);
         drawingAccount.setBankCard(bankCard);

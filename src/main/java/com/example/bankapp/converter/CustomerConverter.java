@@ -2,6 +2,7 @@ package com.example.bankapp.converter;
 
 import com.example.bankapp.dto.request.CreateCustomerRequestDTO;
 import com.example.bankapp.dto.request.UpdateCustomerRequestDTO;
+import com.example.bankapp.dto.response.GetCustomerResponseDTO;
 import com.example.bankapp.entity.Role;
 import com.example.bankapp.entity.enums.UserType;
 import com.example.bankapp.entity.Customer;
@@ -43,6 +44,7 @@ public class CustomerConverter {
         user.getRoles().add(role);
         customer.setUser(user);
         customer.setIdentityNo(createCustomerRequestDTO.identityNo());
+        customer.setMonthlyEarning(createCustomerRequestDTO.monthlyEarning());
 
 
         return customer;
@@ -61,6 +63,16 @@ public class CustomerConverter {
         customer.setIdentityNo(updateCustomerRequestDTO.identityNo());
         customer.setUser(user);
         return customer;
+    }
+    public GetCustomerResponseDTO getCustomerResponseDTO(Customer customer){
+
+        return new GetCustomerResponseDTO(customer.getId(),
+                customer.getUser().getId(),
+                customer.getIdentityNo(),
+                customer.getMonthlyEarning(),
+                customer.getUser().getEmail(),
+                customer.getUser().getPhoneNumber(),
+                customer.getUser().getUserType());
     }
 
 }

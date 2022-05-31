@@ -55,4 +55,42 @@ public class CreatorServiceImpl implements CreatorService {
         Date expirationDate = c.getTime();
         return expirationDate;
     }
+
+    public Date createCutOffDate(){
+        Date date = new Date();
+        Calendar c = Calendar.getInstance();
+        c.setTime(date);
+        c.add(Calendar.MONTH,1);
+        Date cutOffDate= c.getTime();
+        return cutOffDate;
+    }
+
+    @Override
+    public Date createNextCutOffDate() {
+        Date date = new Date();
+        Calendar c = Calendar.getInstance();
+        c.setTime(date);
+        c.add(Calendar.MONTH,2);
+        Date cutOffDate= c.getTime();
+        return cutOffDate;
+    }
+    @Override
+    public Date createPaymentDueDate() {
+        Date date = new Date();
+        Calendar c = Calendar.getInstance();
+        c.setTime(date);
+        c.add(Calendar.DAY_OF_MONTH,40);
+        Date cutOffDate= c.getTime();
+        return cutOffDate;
+    }
+    @Override
+    public Date createNextPaymentDueDate() {
+        Date date = new Date();
+        Calendar c = Calendar.getInstance();
+        c.setTime(date);
+        c.add(Calendar.DAY_OF_MONTH,80);
+        Date cutOffDate= c.getTime();
+        return cutOffDate;
+    }
+
 }

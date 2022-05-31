@@ -5,7 +5,7 @@ import com.example.bankapp.dto.request.UpdateCustomerRequestDTO;
 import com.example.bankapp.entity.Customer;
 
 public interface CustomerService {
-    Customer getCustomer(String username);
+    Customer getCustomerWithId(Long id);
     void save(CreateCustomerRequestDTO createCustomerRequestDTO);
     void update(Long id,UpdateCustomerRequestDTO updateCustomerRequestDTO);
     void delete(Long id,boolean hardDelete);

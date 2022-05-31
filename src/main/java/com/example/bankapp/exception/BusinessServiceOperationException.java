@@ -46,6 +46,26 @@ public final class BusinessServiceOperationException {
             super(message);
         }
     }
+    public static class CreateCreditCardException extends BaseException {
+        public CreateCreditCardException(String message) {
+            super(message);
+        }
+    }
+    public static class SavingsAccountNotFoundException extends BaseException {
+        public SavingsAccountNotFoundException(String message) {
+            super(message);
+        }
+    }
+    public static class DepositMoneyToSavingsAccountFailedException extends BaseException {
+        public DepositMoneyToSavingsAccountFailedException(String message) {
+            super(message);
+        }
+    }
+    public static class GetCustomerFailedException extends BaseException {
+        public GetCustomerFailedException(String message) {
+            super(message);
+        }
+    }
 
 
 

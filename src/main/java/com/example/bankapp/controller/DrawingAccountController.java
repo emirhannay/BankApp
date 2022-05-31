@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class DrawingAccountController {
 
     private final DrawingAccountServiceImpl drawingAccountService;
-    private final ExchangeRateApiAdaptor exchangeRateApiAdaptor;
 
     @PostMapping
     public ResponseEntity<?> create(@RequestBody CreateDrawingAccountRequestDTO createDrawingAccountRequestDTO){

@@ -1,5 +1,6 @@
 package com.example.bankapp.entity;
 
+import com.example.bankapp.entity.enums.CardType;
 import com.example.bankapp.model.BaseModel;
 import lombok.Getter;
 import lombok.Setter;
@@ -19,4 +20,6 @@ public class Card extends BaseModel {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "customer_id",nullable = false)
     private Customer customer;
+    @Enumerated(value = EnumType.STRING)
+    private CardType cardType;
 }
