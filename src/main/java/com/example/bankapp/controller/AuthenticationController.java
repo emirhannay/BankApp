@@ -3,6 +3,7 @@ package com.example.bankapp.controller;
 
 import com.example.bankapp.dto.request.CreateAdminRequestDTO;
 import com.example.bankapp.dto.request.CreateCustomerRequestDTO;
+import com.example.bankapp.exception.BusinessServiceOperationException;
 import com.example.bankapp.security.UserDetail;
 import com.example.bankapp.service.CustomerService;
 import com.example.bankapp.service.UserService;
@@ -37,6 +38,7 @@ public class AuthenticationController {
     private final CustomerService customerService;
     private final UserService userService;
 
+
     @PostMapping(path = "/sign-in")
     public ResponseEntity<?> signIn(@RequestBody AuthenticationRequest authenticationRequest) {
         authenticationRequestValidator.validate(authenticationRequest);
@@ -50,8 +52,11 @@ public class AuthenticationController {
     }
     @PostMapping("/register")
     public ResponseEntity<?> create(@RequestBody CreateCustomerRequestDTO createCustomerRequestDTO) {
-        customerService.save(createCustomerRequestDTO);
-        return ResponseEntity.ok().body("Customer is created successfully");
+        return ResponseEntity.ok().body(userRepository.findById(1L).orElseThrow(
+                () -> new BusinessServiceOperationException.UserNotFoundException("Bu hata postgreden kaynaklıdır")
+        ));
+        //customerService.save(createCustomerRequestDTO);
+        //return ResponseEntity.ok().body("Customer is created successfully");
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
