@@ -14,7 +14,7 @@
     <name>bank-app</name>
     <description>Java / Spring Bootcamp Final Project</description>
     <properties>
-        <java.version>16</java.version>
+        <java.version>1.7</java.version>
     </properties>
     <dependencies>
         <dependency>
