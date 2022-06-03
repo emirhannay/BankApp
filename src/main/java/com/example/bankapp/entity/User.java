@@ -14,7 +14,7 @@ import java.util.*;
 @Entity
 @Getter
 @Setter
-@Table(name="`User`")
+@Table(name= "Users")
 public class User extends BaseExtendedModel {
 
     @Column(nullable = false,unique = true)
