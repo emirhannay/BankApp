@@ -23,7 +23,7 @@ public class BaseControllerAdvice {
         return ResponseEntity.badRequest().body(new ApiError(illegalArgumentException.getMessage()));
     }
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(IllegalArgumentException.class)
+    @ExceptionHandler(DataIntegrityViolationException.class)
     public ResponseEntity<?> onBaseExceptionHandled(DataIntegrityViolationException illegalArgumentException) {
         return ResponseEntity.badRequest().body(new ApiError(illegalArgumentException.getMessage()));
     }
