@@ -14,4 +14,11 @@ public interface AccountRepository extends JpaRepository<Account,Long> {
     Optional<Account> findByIban(@Param("iban") String iban);
     @Query(value = "SELECT * FROM ACCOUNT AS A WHERE A.CUSTOMER_ID = :customerId AND A.BALANCE > '0'",nativeQuery = true)
     List<Account> getAccountsWithMoney(@Param("customerId") Long customerId);
+
+    @Query(value = "SELECT * FROM ACCOUNT AS A INNER JOIN DRAWING_ACCOUNT AS D ON A.ID = D.ACCOUNT_ID WHERE D.BANK_CARD_ID = :bankCardId ",nativeQuery = true)
+    Optional<Account> getAccountByBankCardId(@Param("bankCardId") Long bankCardId);
+
+    @Query(value = "SELECT * FROM ACCOUNT AS A WHERE A.IBAN = :iban AND A.ACCOUNT_TYPE = 'CORPORATE' ",nativeQuery = true)
+    Optional<Account> getCorporateAccountByIban(@Param("iban") String iban);
+
 }

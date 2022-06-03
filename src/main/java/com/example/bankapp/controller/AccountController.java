@@ -17,7 +17,7 @@ public class AccountController {
 
     private final AccountService accountService;
 
-    @PostMapping
+    @PostMapping("/transfer")
     public ResponseEntity<?> sendMoney(@RequestBody SendMoneyRequest sendMoneyRequest){
         accountService.sendMoney(sendMoneyRequest);
 

@@ -3,6 +3,7 @@ package com.example.bankapp.service;
 import com.example.bankapp.converter.CustomerConverter;
 import com.example.bankapp.dto.request.CreateCustomerRequestDTO;
 import com.example.bankapp.dto.request.UpdateCustomerRequestDTO;
+import com.example.bankapp.dto.response.GetCustomerResponseDTO;
 import com.example.bankapp.entity.Account;
 import com.example.bankapp.entity.Customer;
 import com.example.bankapp.entity.User;
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 
 @RequiredArgsConstructor
@@ -36,12 +38,22 @@ public class CustomerServiceImpl implements CustomerService{
                 () -> new BusinessServiceOperationException.CustomerNotFoundException("Customer not found")
         );
        User loggedInUser = userHelper.getLoggedInUser();
-       if( !(customer.getUser() == loggedInUser) &&  !(userHelper.isLoggedInUserAdmin()) ){
+       if( !(customer.getUser() == loggedInUser) &  !(userHelper.isLoggedInUserAdmin()) ){
            throw new BusinessServiceOperationException.GetCustomerFailedException("Get customer failed");
        }
         log.info("Getting customer was successfully -> {}",customer.getId());
         return customer;
     }
+
+    @Override
+    public List<GetCustomerResponseDTO> getCustomers() {
+        List<GetCustomerResponseDTO> customers = customerRepository.getAllByDeleteStatus().
+                stream()
+                .map(customerConverter::getCustomerResponseDTO)
+                .toList();
+        return customers;
+    }
+
     @Override
     public void save(CreateCustomerRequestDTO createCustomerRequestDTO) {
         Customer customer = customerConverter.toCustomer(createCustomerRequestDTO);

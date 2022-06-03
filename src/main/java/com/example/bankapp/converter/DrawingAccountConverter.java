@@ -1,6 +1,7 @@
 package com.example.bankapp.converter;
 
 import com.example.bankapp.core.utils.CreatorService;
+import com.example.bankapp.dto.response.GetDrawingAccountResponseDTO;
 import com.example.bankapp.entity.*;
 import com.example.bankapp.entity.enums.AccountType;
 import com.example.bankapp.entity.enums.CardType;
@@ -28,7 +29,10 @@ public class DrawingAccountConverter {
     private final UserHelper userHelper;
 
     public DrawingAccount toDrawingAccount(CreateDrawingAccountRequestDTO createDrawingAccountRequestDTO){
-        Customer customer = userHelper.getLoggedInCustomer();
+        Customer customer = customerRepository.findByCustomerIdAndStatus(createDrawingAccountRequestDTO.customerId())
+                .orElseThrow(
+                        ()-> new BusinessServiceOperationException.CustomerNotFoundException("Create drawing account failed")
+                );
         BankCard bankCard = new BankCard();
         Card card = new Card();
         card.setCustomer(customer);
@@ -36,8 +40,8 @@ public class DrawingAccountConverter {
         card.setCvv(creatorService.createCvv());
         card.setExpirationDate(creatorService.createExpirationDate());
         card.setCardType(CardType.BANK);
+
         bankCard.setCard(card);
-        bankCard.setBalance(BigDecimal.ZERO);
         DrawingAccount drawingAccount = new DrawingAccount();
         Account account = new Account();
         account.setCurrency(createDrawingAccountRequestDTO.currency());
@@ -50,6 +54,14 @@ public class DrawingAccountConverter {
         drawingAccount.setAccount(account);
 
         return drawingAccount;
+    }
+
+    public GetDrawingAccountResponseDTO toGetDrawingAccountResponseDTO(DrawingAccount drawingAccount){
+            return new GetDrawingAccountResponseDTO(drawingAccount.getAccount().getIban(),
+                    drawingAccount.getAccount().getBalance(),
+                    drawingAccount.getAccount().getCurrency(),
+                    drawingAccount.getId(),
+                    drawingAccount.getAccount().getId());
     }
 
 

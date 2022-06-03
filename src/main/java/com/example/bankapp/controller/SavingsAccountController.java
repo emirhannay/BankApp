@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("api/accounts/savings")
+@RequestMapping("api/users/customers/accounts/savings")
 public class SavingsAccountController {
 
     private final SavingsAccountService savingsAccountService;
@@ -30,7 +30,6 @@ public class SavingsAccountController {
     @PostMapping("/deposit")
     public ResponseEntity<?> depositMoney(@RequestBody DepositMoneyToSavingAccountRequest depositMoneyToSavingAccountRequest){
         savingsAccountService.depositMoneyToSavingsAccount(depositMoneyToSavingAccountRequest);
-
         return ResponseEntity.ok().body("The money has been deposited successfully.");
 
     }

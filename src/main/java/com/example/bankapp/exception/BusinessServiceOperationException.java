@@ -65,6 +65,20 @@ public final class BusinessServiceOperationException {
         public GetCustomerFailedException(String message) {
             super(message);
         }
+    }public static class CardNotFoundException extends BaseException {
+        public CardNotFoundException(String message) {
+            super(message);
+        }
+    }
+    public static class PaymentFailedException extends BaseException {
+        public PaymentFailedException(String message) {
+            super(message);
+        }
+    }
+    public static class CreateAdminFailedException extends BaseException {
+        public CreateAdminFailedException(String message) {
+            super(message);
+        }
     }
 
 

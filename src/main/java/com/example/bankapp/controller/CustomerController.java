@@ -7,32 +7,30 @@ import com.example.bankapp.service.CustomerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 
 @RestController
 @RequestMapping("api/users/customers")
 @RequiredArgsConstructor
-@Secured({})
 public class CustomerController {
 
     private final CustomerService customerService;
     private final CustomerConverter customerConverter;
 
-    @PostMapping
-    ResponseEntity<?> create(@RequestBody CreateCustomerRequestDTO createCustomerRequestDTO) {
-        customerService.save(createCustomerRequestDTO);
-        return ResponseEntity.ok().body("Customer is created successfully");
-    }
+
     @GetMapping("/{id}")
     ResponseEntity<?> getCustomer(@PathVariable Long id) {
-
         return ResponseEntity.ok().body(customerConverter.
                 getCustomerResponseDTO(customerService.getCustomerWithId(id))
         );
     }
-
-
+    @GetMapping
+    @PreAuthorize("hasAuthority('ADMIN')")
+    ResponseEntity<?> getCustomers() {
+        return ResponseEntity.ok().body(customerService.getCustomers());
+    }
     @PutMapping("/{id}")
     ResponseEntity<?> update(@PathVariable Long id,@RequestBody UpdateCustomerRequestDTO updateCustomerRequestDTO) {
         customerService.update(id,updateCustomerRequestDTO);

@@ -8,6 +8,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 
 
@@ -20,7 +21,7 @@ public class UserDetail implements UserDetails {
     private final String email;
     private final String password;
     private final UserStatus userStatus;
-    private final Set<Role> roles;
+    private final List<Role> roles;
 
     public Long getId() {
         return id;

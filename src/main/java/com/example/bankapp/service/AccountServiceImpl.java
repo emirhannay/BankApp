@@ -46,6 +46,10 @@ public class AccountServiceImpl implements AccountService{
             throw new BusinessServiceOperationException
                     .MoneyTransferFailedException("You cannot send money to savings account.But you can deposit money.");
         }
+        if( receiverAccount.getAccountType() == AccountType.CORPORATE){
+            throw new BusinessServiceOperationException
+                    .MoneyTransferFailedException("You cannot send money to corporate account.");
+        }
         if( !(senderAccount.getCustomer() == loggedInCustomer)) {
             throw new BusinessServiceOperationException
                     .MoneyTransferFailedException("You cannot send money from an account that does not belong to you.");
@@ -64,7 +68,7 @@ public class AccountServiceImpl implements AccountService{
         }
         else {
             senderAccount.setBalance(senderAccount.getBalance().subtract(moneyToBeSent));
-            moneyToBeSent = moneyToBeSent.multiply(getExchangeRateForTransfer(senderAccount,receiverAccount));
+            moneyToBeSent = moneyToBeSent.multiply(exchangeRateApiAdaptor.getExchangeRateForTransfer(senderAccount,receiverAccount));
             receiverAccount.setBalance(receiverAccount.getBalance().add(moneyToBeSent));
         }
         accountRepository.save(senderAccount);
@@ -99,18 +103,6 @@ public class AccountServiceImpl implements AccountService{
             return false;
         }
     }
-    public BigDecimal getExchangeRateForTransfer(Account senderAccount, Account receiverAccount){
-        ExchangeRateApiData exchangeRateApiData = exchangeRateApiAdaptor.getExchangeRates(senderAccount.getCurrency());
-        if(receiverAccount.getCurrency() == Currency.TRY){
-            return exchangeRateApiData.getRates().getTl();
-        }
-        if(receiverAccount.getCurrency() == Currency.EUR){
-            return exchangeRateApiData.getRates().getEur();
-        }
-        if(receiverAccount.getCurrency() == Currency.USD){
-            return exchangeRateApiData.getRates().getUsd();
-        }
-        return BigDecimal.ZERO;
-    }
+
 
 }

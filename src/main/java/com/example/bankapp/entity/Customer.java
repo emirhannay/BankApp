@@ -24,6 +24,7 @@ public class Customer extends BaseModel {
     @Column(nullable = false)
     private BigDecimal monthlyEarning;
 
+
     @OneToMany(mappedBy = "customer", cascade =  CascadeType.REMOVE)
     private Set<Account> accounts;
 

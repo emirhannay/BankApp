@@ -25,4 +25,5 @@ public class Transfer extends BaseModel {
     private BigDecimal amount;
     @Enumerated(EnumType.STRING)
     private Currency currency;
+    private String description;
 }

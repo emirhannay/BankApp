@@ -11,11 +11,12 @@ public class BcryptPasswordEncoderTest {
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
 
+
     @Test
     void should_match_password_with_bcryptPasswordEncoder() {
         String password = "password";
         String encodedPassword = passwordEncoder.encode(password);
         Assertions.assertThat(encodedPassword).isNotEmpty();
-        Assertions.assertThat(passwordEncoder.matches(password+"s", encodedPassword)).isTrue();
+        Assertions.assertThat(passwordEncoder.matches(password, encodedPassword)).isTrue();
     }
 }

@@ -1,7 +1,11 @@
 package com.example.bankapp.controller;
 
 
+import com.example.bankapp.dto.request.CreateAdminRequestDTO;
+import com.example.bankapp.dto.request.CreateCustomerRequestDTO;
 import com.example.bankapp.security.UserDetail;
+import com.example.bankapp.service.CustomerService;
+import com.example.bankapp.service.UserService;
 import com.example.bankapp.validator.AuthenticationRequestValidator;
 import com.example.bankapp.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -30,6 +34,8 @@ public class AuthenticationController {
     private final AuthenticationManager authenticationManager;
     private final JWTHelper jwtHelper;
     private final UserRepository userRepository;
+    private final CustomerService customerService;
+    private final UserService userService;
 
     @PostMapping(path = "/sign-in")
     public ResponseEntity<?> signIn(@RequestBody AuthenticationRequest authenticationRequest) {
@@ -42,9 +48,16 @@ public class AuthenticationController {
 
         return ResponseEntity.ok(new AuthenticationResponse(token));
     }
-    @GetMapping(path = "/refresh-token")
-    public ResponseEntity<?> xyz() {
+    @PostMapping("/register")
+    public ResponseEntity<?> create(@RequestBody CreateCustomerRequestDTO createCustomerRequestDTO) {
+        customerService.save(createCustomerRequestDTO);
+        return ResponseEntity.ok().body("Customer is created successfully");
+    }
 
-        return ResponseEntity.ok().build();
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @PostMapping("/admin")
+    public ResponseEntity<?> createAdmin(@RequestBody CreateAdminRequestDTO createAdminRequestDTO) {
+        userService.createAdmin(createAdminRequestDTO);
+        return ResponseEntity.ok().body("Admin is created successfully");
     }
 }
