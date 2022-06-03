@@ -52,7 +52,10 @@ public class AuthenticationController {
     }
     @PostMapping("/register")
     public ResponseEntity<?> create(@RequestBody CreateCustomerRequestDTO createCustomerRequestDTO) {
-        return ResponseEntity.ok().body(userRepository.findById(1L).orElseThrow(
+        /*return ResponseEntity.ok().body(userRepository.findById(1L).orElseThrow(
+                () -> new BusinessServiceOperationException.UserNotFoundException("Bu hata postgreden kaynaklıdır")
+        )); */
+        return ResponseEntity.ok().body(userRepository.findByUserId(1L).orElseThrow(
                 () -> new BusinessServiceOperationException.UserNotFoundException("Bu hata postgreden kaynaklıdır")
         ));
         //customerService.save(createCustomerRequestDTO);
