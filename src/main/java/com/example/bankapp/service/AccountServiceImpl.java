@@ -5,6 +5,7 @@ import com.example.bankapp.dto.response.GetAccountResponseDTO;
 import com.example.bankapp.entity.Account;
 import com.example.bankapp.entity.Customer;
 import com.example.bankapp.entity.Transfer;
+import com.example.bankapp.entity.User;
 import com.example.bankapp.entity.enums.AccountType;
 import com.example.bankapp.entity.enums.Currency;
 import com.example.bankapp.exception.BaseException;
@@ -13,6 +14,7 @@ import com.example.bankapp.helper.UserHelper;
 import com.example.bankapp.model.ExchangeRateApiData;
 import com.example.bankapp.model.SendMoneyRequest;
 import com.example.bankapp.repository.AccountRepository;
+import com.example.bankapp.repository.CustomerRepository;
 import com.example.bankapp.repository.TransferRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -29,6 +31,7 @@ public class AccountServiceImpl implements AccountService{
 
     private final UserHelper userHelper;
     private final AccountRepository accountRepository;
+    private final CustomerRepository customerRepository;
     private final ExchangeRateApiAdaptor exchangeRateApiAdaptor;
     private final TransferRepository transferRepository;
     private final AccountConverter accountConverter;
@@ -96,6 +99,13 @@ public class AccountServiceImpl implements AccountService{
 
     @Override
     public List<GetAccountResponseDTO> getAccountsByCustomerId(Long customerId) {
+        Customer customer = customerRepository.findById(customerId).orElseThrow(
+                () -> new BusinessServiceOperationException.CustomerNotFoundException("Customer not found with tis id")
+        );
+        User loggedInUser = userHelper.getLoggedInUser();
+        if( !(customer.getUser() == loggedInUser) &  !(userHelper.isLoggedInUserAdmin()) ){
+            throw new BusinessServiceOperationException.GetCustomerFailedException("Get accounts operation failed ");
+        }
         List<GetAccountResponseDTO> accounts = accountRepository.getAllAccountsByCustomerId(customerId).stream().map(
                 accountConverter::toGetAccountResponseDto).toList();
         return accounts;
