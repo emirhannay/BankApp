@@ -1,5 +1,7 @@
 package com.example.bankapp.service;
 
+import com.example.bankapp.converter.AccountConverter;
+import com.example.bankapp.dto.response.GetAccountResponseDTO;
 import com.example.bankapp.entity.Account;
 import com.example.bankapp.entity.Customer;
 import com.example.bankapp.entity.Transfer;
@@ -19,6 +21,7 @@ import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.util.Date;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -28,6 +31,7 @@ public class AccountServiceImpl implements AccountService{
     private final AccountRepository accountRepository;
     private final ExchangeRateApiAdaptor exchangeRateApiAdaptor;
     private final TransferRepository transferRepository;
+    private final AccountConverter accountConverter;
 
     @Override
     @Transactional(rollbackOn = {BaseException.class, SQLException.class})
@@ -82,6 +86,19 @@ public class AccountServiceImpl implements AccountService{
         transferRepository.save(transfer);
 
 
+    }
+
+    @Override
+    public List<GetAccountResponseDTO> getAllAccounts() {
+        List<GetAccountResponseDTO> accounts = accountRepository.findAll().stream().map(accountConverter::toGetAccountResponseDto).toList();
+        return accounts;
+    }
+
+    @Override
+    public List<GetAccountResponseDTO> getAccountsByCustomerId(Long customerId) {
+        List<GetAccountResponseDTO> accounts = accountRepository.getAllAccountsByCustomerId(customerId).stream().map(
+                accountConverter::toGetAccountResponseDto).toList();
+        return accounts;
     }
 
     public boolean doesAccountHasEnoughMoneyForTransfer(Account senderAccount,SendMoneyRequest sendMoneyRequest){

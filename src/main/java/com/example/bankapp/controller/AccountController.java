@@ -4,24 +4,27 @@ import com.example.bankapp.model.SendMoneyRequest;
 import com.example.bankapp.service.AccountService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("api/accounts")
+@RequestMapping("api/users")
 public class AccountController {
 
 
     private final AccountService accountService;
 
-    @PostMapping("/transfer")
+    @PostMapping("/customers/accounts/transfer")
     public ResponseEntity<?> sendMoney(@RequestBody SendMoneyRequest sendMoneyRequest){
         accountService.sendMoney(sendMoneyRequest);
 
         return ResponseEntity.ok().body("Money transfer successfully");
+
+    }
+    @GetMapping("/customers/{}/transfer")
+    public ResponseEntity<?> getAccountsByCustomerId(@PathVariable Long customerId){
+
+        return ResponseEntity.ok().body(accountService.getAccountsByCustomerId(customerId));
 
     }
 
