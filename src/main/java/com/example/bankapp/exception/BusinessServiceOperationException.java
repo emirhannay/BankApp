@@ -80,6 +80,11 @@ public final class BusinessServiceOperationException {
             super(message);
         }
     }
+    public static class TransferNotFoundException extends BaseException {
+        public TransferNotFoundException(String message) {
+            super(message);
+        }
+    }
 
 
 

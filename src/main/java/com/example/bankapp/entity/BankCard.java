@@ -13,19 +13,8 @@ import java.util.Date;
 @Getter
 public class BankCard extends BaseModel {
 
-
     @OneToOne(cascade = CascadeType.ALL,optional = false)
     private Card card;
-
-
-
-
-
-
-
-
-
-
 
 
 }
