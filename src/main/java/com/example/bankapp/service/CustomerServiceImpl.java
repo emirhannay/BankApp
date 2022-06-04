@@ -13,6 +13,7 @@ import com.example.bankapp.exception.BusinessServiceOperationException;
 import com.example.bankapp.helper.UserHelper;
 import com.example.bankapp.repository.AccountRepository;
 import com.example.bankapp.repository.CustomerRepository;
+import com.example.bankapp.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -29,6 +30,7 @@ public class CustomerServiceImpl implements CustomerService{
 
     private final CustomerRepository customerRepository;
     private final AccountRepository accountRepository;
+    private final UserRepository userRepository;
     private final CustomerConverter customerConverter;
     private final UserHelper userHelper;
 
@@ -56,10 +58,16 @@ public class CustomerServiceImpl implements CustomerService{
 
     @Override
     public void save(CreateCustomerRequestDTO createCustomerRequestDTO) {
-        Customer customer = customerConverter.toCustomer(createCustomerRequestDTO);
-        customerRepository.save(customer);
-        log.info("Customer created successfully -> {}",customer.getId());
+        User user = userRepository.findByEmail(createCustomerRequestDTO.email()).orElseThrow(
+                ()-> new BusinessServiceOperationException.CreateCustomerFailedException("Already registered with this email address")
+        );
+        Customer customer = customerRepository.findByIdentityNo(createCustomerRequestDTO.identityNo()).orElseThrow(
+                ()-> new BusinessServiceOperationException.CreateCustomerFailedException("Already registered with this identity number")
+        );
 
+        Customer customerToBeRegistered = customerConverter.toCustomer(createCustomerRequestDTO);
+        customerRepository.save(customerToBeRegistered);
+        log.info("Customer created successfully -> {}",customer.getId());
     }
     @Override
     public void update(Long id,UpdateCustomerRequestDTO updateCustomerRequestDTO) {
