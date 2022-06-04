@@ -21,7 +21,7 @@ public class AccountController {
         return ResponseEntity.ok().body("Money transfer successfully");
 
     }
-    @GetMapping("/customers/{}/transfer")
+    @GetMapping("/customers/{}/accounts")
     public ResponseEntity<?> getAccountsByCustomerId(@PathVariable Long customerId){
 
         return ResponseEntity.ok().body(accountService.getAccountsByCustomerId(customerId));
