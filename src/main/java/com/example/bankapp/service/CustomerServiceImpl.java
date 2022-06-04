@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 
@@ -58,16 +59,18 @@ public class CustomerServiceImpl implements CustomerService{
 
     @Override
     public void save(CreateCustomerRequestDTO createCustomerRequestDTO) {
-        User user = userRepository.findByEmail(createCustomerRequestDTO.email()).orElseThrow(
-                ()-> new BusinessServiceOperationException.CreateCustomerFailedException("Already registered with this email address")
-        );
-        Customer customer = customerRepository.findByIdentityNo(createCustomerRequestDTO.identityNo()).orElseThrow(
-                ()-> new BusinessServiceOperationException.CreateCustomerFailedException("Already registered with this identity number")
-        );
+        User checkEmailUser = userRepository.findByEmail(createCustomerRequestDTO.email());
+        Customer checkIdentityNoCustomer = customerRepository.findByIdentityNo(createCustomerRequestDTO.identityNo());
+        if( !(Objects.isNull(checkEmailUser)) ){
+            throw  new BusinessServiceOperationException.CreateCustomerFailedException("Already registered with this email address");
+        }
+        if( !(Objects.isNull(checkIdentityNoCustomer)) ){
+            throw  new BusinessServiceOperationException.CreateCustomerFailedException("Already registered with this identity number");
+        }
 
         Customer customerToBeRegistered = customerConverter.toCustomer(createCustomerRequestDTO);
         customerRepository.save(customerToBeRegistered);
-        log.info("Customer created successfully -> {}",customer.getId());
+        log.info("Customer created successfully -> {}",customerToBeRegistered.getId());
     }
     @Override
     public void update(Long id,UpdateCustomerRequestDTO updateCustomerRequestDTO) {
