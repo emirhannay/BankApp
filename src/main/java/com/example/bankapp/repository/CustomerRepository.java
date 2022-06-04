@@ -14,7 +14,7 @@ public interface CustomerRepository extends JpaRepository<Customer, Long> {
     @Query(value = "SELECT * FROM CUSTOMER AS C WHERE C.USER_ID = :userId",nativeQuery = true)
     Optional<Customer> findByUserId(@Param("userId") Long userId);
 
-    @Query(value = "SELECT * FROM CUSTOMER AS C INNER JOIN USER AS U ON C.USER_ID = U.ID WHERE U.EMAIL = :email",nativeQuery = true)
+    @Query(value = "SELECT * FROM CUSTOMER AS C INNER JOIN USERS AS U ON C.USER_ID = U.ID WHERE U.EMAIL = :email",nativeQuery = true)
     Customer findByEmail(@Param("email") String email);
 
     Customer findByIdentityNo(String identityNo);
