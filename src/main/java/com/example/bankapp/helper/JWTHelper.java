@@ -29,7 +29,7 @@ public class JWTHelper {
     @Value("${ssja.jwt.expires-in}")
     private long expiresIn;
 
-    public String generate(String email, List<String> roles) {
+    public String generate(String email, List<String> roles,Long customerId, Long userId) {
         if (!StringUtils.hasLength(email)) {
             throw new IllegalArgumentException("Email can not be null or empty");
         }
@@ -38,6 +38,8 @@ public class JWTHelper {
                 .withExpiresAt(new Date(Date.from(Instant.now()).getTime() + expiresIn))
                 .withClaim("email", email)
                 .withClaim("roles",roles)
+                .withClaim("customerId",customerId)
+                .withClaim( "userId",userId)
                 .sign(Algorithm.HMAC512(secretKey));
     }
 

@@ -3,7 +3,9 @@ package com.example.bankapp.controller;
 
 import com.example.bankapp.dto.request.CreateAdminRequestDTO;
 import com.example.bankapp.dto.request.CreateCustomerRequestDTO;
+import com.example.bankapp.entity.Customer;
 import com.example.bankapp.exception.BusinessServiceOperationException;
+import com.example.bankapp.repository.CustomerRepository;
 import com.example.bankapp.security.UserDetail;
 import com.example.bankapp.service.CustomerService;
 import com.example.bankapp.service.UserService;
@@ -22,6 +24,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @RestController
@@ -37,6 +40,7 @@ public class AuthenticationController {
     private final UserRepository userRepository;
     private final CustomerService customerService;
     private final UserService userService;
+    private final CustomerRepository customerRepository;
 
 
     @PostMapping(path = "/sign-in")
@@ -45,8 +49,19 @@ public class AuthenticationController {
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authenticationRequest.getEmail(), authenticationRequest.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
         UserDetail userDetail = (UserDetail) authentication.getPrincipal();
-        String token = jwtHelper.generate(authenticationRequest.getEmail()
-                ,authentication.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()));
+        Customer customer = customerRepository.findByEmail(authenticationRequest.getEmail());
+        String token = "";
+        if(Objects.isNull(customer)){
+            token = jwtHelper.generate(authenticationRequest.getEmail(),
+                    authentication.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList())
+                    ,null,userDetail.getId());
+        }
+        else {
+            token = jwtHelper.generate(authenticationRequest.getEmail(),
+                    authentication.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList())
+                    ,customer.getId(),userDetail.getId());
+        }
+
 
         return ResponseEntity.ok(new AuthenticationResponse(token));
     }
