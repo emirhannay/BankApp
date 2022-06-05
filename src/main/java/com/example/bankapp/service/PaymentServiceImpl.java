@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.sql.SQLException;
+import java.util.Date;
 
 @Service
 @RequiredArgsConstructor
@@ -64,8 +65,16 @@ public class PaymentServiceImpl implements PaymentService{
                 accountRepository.save(senderAccount);
                 accountRepository.save(receiverAccount);
                 Payment payment = paymentConverter.toPayment(payRequestDTO);
+                payment.setCurrency(senderAccount.getCurrency());
+                Transfer transfer = new Transfer();
+                transfer.setTransferDate(new Date());
+                transfer.setSenderIban(senderAccount.getIban());
+                transfer.setAmount(moneyToBeSent);
+                transfer.setCurrency(receiverAccount.getCurrency());
+                transfer.setReceiverIban(receiverAccount.getIban());
+                transfer.setDescription("Online Shopping");
                 paymentRepository.save(payment);
-                log.info("Payment was successful.");
+                log.info("Payment was successful");
             }
         }
         else {

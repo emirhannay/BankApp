@@ -1,19 +1,21 @@
 package com.example.bankapp.service;
 
 import com.example.bankapp.converter.CreditCardConverter;
+import com.example.bankapp.dto.response.GetCreditCardActivitiesResponseDTO;
 import com.example.bankapp.dto.response.GetCreditCardResponseDTO;
-import com.example.bankapp.entity.Card;
-import com.example.bankapp.entity.CreditCard;
-import com.example.bankapp.entity.Customer;
-import com.example.bankapp.entity.User;
+import com.example.bankapp.entity.*;
 import com.example.bankapp.exception.BusinessServiceOperationException;
 import com.example.bankapp.helper.UserHelper;
 import com.example.bankapp.repository.CardRepository;
 import com.example.bankapp.repository.CreditCardRepository;
 import com.example.bankapp.repository.CustomerRepository;
+import com.example.bankapp.repository.PaymentRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -25,6 +27,7 @@ public class CreditCardServiceImpl implements CreditCardService {
     private final CreditCardRepository creditCardRepository;
     private final CardRepository cardRepository;
     private final UserHelper userHelper;
+    private final PaymentRepository paymentRepository;
 
     @Override
     public void create(Long customerId) {
@@ -60,5 +63,31 @@ public class CreditCardServiceImpl implements CreditCardService {
         }
         GetCreditCardResponseDTO getCreditCardResponseDTO = creditCardConverter.toGetCreditCardResponseDto(creditCard);
         return getCreditCardResponseDTO;
+    }
+
+    @Override
+    public List<GetCreditCardActivitiesResponseDTO> getCreditCardActivitiesByCardNo(String cardNo) {
+       Card card = cardRepository.findByCardNo(cardNo).orElseThrow(
+               () -> new BusinessServiceOperationException.CardNotFoundException("Card Not Found")
+       );
+       User loggedInUser = userHelper.getLoggedInUser();
+        if( !(card.getCustomer().getUser() == loggedInUser) &  !(userHelper.isLoggedInUserAdmin()) ){
+            throw new BusinessServiceOperationException.GetCreditCardFailedException("Get credit card failed");
+        }
+        List<Payment> payments = paymentRepository.getPaymentsByCardNo(cardNo);
+        List<GetCreditCardActivitiesResponseDTO> creditCardActivities = new ArrayList<>();
+        for(int i = 0; i < payments.size(); i++ ){
+            Payment payment = payments.get(i);
+
+            GetCreditCardActivitiesResponseDTO getCreditCardActivitiesResponseDTO = new GetCreditCardActivitiesResponseDTO(
+                    payment.getReceiverIban(),
+                    payment.getAmount(),
+                    payment.getCurrency(),
+                    payment.getTransferDate()
+            );
+            creditCardActivities.add(getCreditCardActivitiesResponseDTO);
+
+        }
+        return creditCardActivities;
     }
 }

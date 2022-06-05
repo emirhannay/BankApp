@@ -25,4 +25,10 @@ public class CreditCardController {
 
         return ResponseEntity.ok().body(creditCardService.getCreditCardByCustomerId(customerId));
     }
+
+    @GetMapping("/cards/credit")
+    ResponseEntity<?> getCreditCardActivities(@RequestParam(name = "cardNo",required = true) String cardNo) {
+
+        return ResponseEntity.ok().body(creditCardService.getCreditCardActivitiesByCardNo(cardNo));
+    }
 }

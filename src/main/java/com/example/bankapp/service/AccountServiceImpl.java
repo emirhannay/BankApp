@@ -87,6 +87,7 @@ public class AccountServiceImpl implements AccountService{
         transfer.setReceiverIban(receiverAccount.getIban());
         transfer.setAmount(moneyToBeSent);
         transfer.setCurrency(receiverAccount.getCurrency());
+        transfer.setDescription(sendMoneyRequest.description());
         transferRepository.save(transfer);
 
 
@@ -117,7 +118,6 @@ public class AccountServiceImpl implements AccountService{
                         account.getCurrency(),
                         account.getAccountType(),
                         account.getSavingsAccount().getId(),
-                        null,
                         null);
                 accountResponseDTOS.add(tempAccountResponseDTO);
             }
@@ -127,8 +127,7 @@ public class AccountServiceImpl implements AccountService{
                         account.getCurrency(),
                         account.getAccountType(),
                         null,
-                        account.getDrawingAccount().getId(),
-                        null);
+                        account.getDrawingAccount().getId());
                 accountResponseDTOS.add(tempAccountResponseDTO);
             }
         }

@@ -1,7 +1,11 @@
 package com.example.bankapp.service;
 
 import com.example.bankapp.dto.request.PayRequestDTO;
+import com.example.bankapp.dto.response.GetCreditCardActivitiesResponseDTO;
+
+import java.util.List;
 
 public interface PaymentService {
-    public void pay(PayRequestDTO payRequestDTO);
+    void pay(PayRequestDTO payRequestDTO);
+
 }

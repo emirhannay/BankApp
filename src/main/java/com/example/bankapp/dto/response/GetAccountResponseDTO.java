@@ -5,5 +5,5 @@ import com.example.bankapp.entity.enums.Currency;
 
 import java.math.BigDecimal;
 
-public record GetAccountResponseDTO(String iban, BigDecimal balance, Currency currency, AccountType accountType,Long savingsAccountId,Long drawingsAccountId,Long corporateAccountId) {
+public record GetAccountResponseDTO(String iban, BigDecimal balance, Currency currency, AccountType accountType,Long savingsAccountId,Long drawingsAccountId) {
 }
