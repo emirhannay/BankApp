@@ -23,7 +23,7 @@ public class CardController {
         return ResponseEntity.ok().body(cardService.getAllCards());
     }
 
-    @GetMapping("/{}/cards")
+    @GetMapping("/{id}/cards")
     ResponseEntity<?> getCardsByCustomerId(@PathVariable(value = "id") Long customerId) {
         return ResponseEntity.ok().body(cardService.getCardsByCustomerId(customerId));
     }
