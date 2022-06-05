@@ -9,5 +9,5 @@ import java.util.List;
 public interface SavingsAccountService {
     void create(CreateSavingsAccountRequestDTO createSavingsAccountRequestDTO);
     void depositMoneyToSavingsAccount(DepositMoneyToSavingAccountRequest depositMoneyToSavingAccountRequest);
-    List<GetSavingsAccountMaturityResponseDTO> getSavingAccountMaturitiesByIban(String iban);
+    List<GetSavingsAccountMaturityResponseDTO> getSavingsAccountMaturitiesByIban(String iban);
 }

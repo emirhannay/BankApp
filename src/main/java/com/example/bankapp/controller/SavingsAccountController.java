@@ -1,6 +1,5 @@
 package com.example.bankapp.controller;
 
-import com.example.bankapp.dto.request.CreateDrawingAccountRequestDTO;
 import com.example.bankapp.dto.request.CreateSavingsAccountRequestDTO;
 import com.example.bankapp.dto.request.DepositMoneyToSavingAccountRequest;
 import com.example.bankapp.repository.SavingsAccountMaturityRepository;
@@ -8,8 +7,6 @@ import com.example.bankapp.service.SavingsAccountService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import javax.websocket.server.PathParam;
 
 @RestController
 @RequiredArgsConstructor
@@ -37,7 +34,7 @@ public class SavingsAccountController {
     @GetMapping()
     public ResponseEntity<?> getSavingAccountMaturitiesByIban(@RequestParam(name = "iban",required = false) String iban){
 
-        return ResponseEntity.ok().body(savingsAccountService.getSavingAccountMaturitiesByIban(iban));
+        return ResponseEntity.ok().body(savingsAccountService.getSavingsAccountMaturitiesByIban(iban));
     }
 
 

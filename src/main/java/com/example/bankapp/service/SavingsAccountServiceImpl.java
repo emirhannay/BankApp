@@ -71,11 +71,13 @@ public class SavingsAccountServiceImpl implements SavingsAccountService{
     }
 
     @Override
-    public List<GetSavingsAccountMaturityResponseDTO> getSavingAccountMaturitiesByIban(String iban) {
-        SavingsAccount savingsAccount = savingsAccountRepository.findByIban(iban);
+    public List<GetSavingsAccountMaturityResponseDTO> getSavingsAccountMaturitiesByIban(String iban) {
+        Account account = accountRepository.findByIban(iban).orElseThrow(
+                ()-> new BusinessServiceOperationException.AccountNotFoundException("Get savings account maturities failed")
+        );
         User loggedInUser = userHelper.getLoggedInUser();
 
-        if( !(savingsAccount.getAccount().getCustomer().getUser() == loggedInUser) &&  !(userHelper.isLoggedInUserAdmin()) ){
+        if( !(account.getCustomer().getUser() == loggedInUser) &&  !(userHelper.isLoggedInUserAdmin()) ){
             throw new BusinessServiceOperationException.DepositMoneyToSavingsAccountFailedException("Deposit money failed!");
         }
         List<GetSavingsAccountMaturityResponseDTO> savingsAccountMaturities = savingsAccountMaturityRepository.
