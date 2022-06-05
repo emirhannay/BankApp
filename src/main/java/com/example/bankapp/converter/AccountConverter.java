@@ -8,7 +8,8 @@ import org.springframework.stereotype.Component;
 public class AccountConverter {
 
     public GetAccountResponseDTO toGetAccountResponseDto(Account account){
-        return new GetAccountResponseDTO(account.getIban(),account.getBalance(),account.getCurrency(),account.getAccountType());
+        /*return new GetAccountResponseDTO(account.getIban(),account.getBalance(),account.getCurrency(),account.getAccountType());*/
+        return null;
     }
 
 }
