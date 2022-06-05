@@ -90,7 +90,7 @@ public class PaymentServiceImpl implements PaymentService{
             else {
                 BigDecimal moneyToBeSent = payRequestDTO.amount().multiply(exchangeRateApiAdaptor.getTlExchangeRateForTransfer(receiverAccount));
                 creditCard.setAvailableLimit(creditCard.getAvailableLimit().subtract(moneyToBeSent));
-                creditCard.setCurrentDebt(creditCard.getCurrentDebt().subtract(moneyToBeSent));
+                creditCard.setCurrentDebt(creditCard.getCurrentDebt().add(moneyToBeSent));
                 receiverAccount.setBalance(receiverAccount.getBalance().add(moneyToBeSent));
                 Payment payment = paymentConverter.toPayment(payRequestDTO);
                 payment.setCurrency(Currency.TRY);

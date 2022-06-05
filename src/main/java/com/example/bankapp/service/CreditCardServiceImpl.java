@@ -83,7 +83,9 @@ public class CreditCardServiceImpl implements CreditCardService {
                     payment.getReceiverIban(),
                     payment.getAmount(),
                     payment.getCurrency(),
-                    payment.getTransferDate()
+                    payment.getTransferDate(),
+                    payment.getShop()
+
             );
             creditCardActivities.add(getCreditCardActivitiesResponseDTO);
 

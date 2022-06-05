@@ -8,5 +8,6 @@ import java.util.Date;
 public record GetCreditCardActivitiesResponseDTO(String iban,
                                                  BigDecimal amount,
                                                  Currency currency,
-                                                 Date paymentDate) {
+                                                 Date paymentDate,
+                                                 String shop) {
 }

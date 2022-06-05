@@ -23,6 +23,7 @@ public class Payment extends BaseModel {
     private Date transferDate;
     @Enumerated(value = EnumType.STRING)
     private Currency currency;
+    private String shop;
 
 
 }
