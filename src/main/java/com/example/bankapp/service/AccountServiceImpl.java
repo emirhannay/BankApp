@@ -22,6 +22,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -106,9 +107,33 @@ public class AccountServiceImpl implements AccountService{
         if( !(customer.getUser() == loggedInUser) &  !(userHelper.isLoggedInUserAdmin()) ){
             throw new BusinessServiceOperationException.GetCustomerFailedException("Get accounts operation failed ");
         }
-        List<GetAccountResponseDTO> accounts = accountRepository.getAllAccountsByCustomerId(customerId).stream().map(
-                accountConverter::toGetAccountResponseDto).toList();
-        return accounts;
+        List<Account> accounts = accountRepository.getAllAccountsByCustomerId(customerId);
+        List<GetAccountResponseDTO> accountResponseDTOS = new ArrayList<>();
+        for(int i = 0; i < accounts.size(); i++){
+            Account account = accounts.get(i);
+            if(account.getAccountType() == AccountType.SAVINGS){
+                GetAccountResponseDTO tempAccountResponseDTO = new GetAccountResponseDTO(account.getIban(),
+                        account.getBalance(),
+                        account.getCurrency(),
+                        account.getAccountType(),
+                        account.getSavingsAccount().getId(),
+                        null,
+                        null);
+                accountResponseDTOS.add(tempAccountResponseDTO);
+            }
+            else if( (account.getAccountType() == AccountType.DRAWING)  || (account.getAccountType() == AccountType.CORPORATE)){
+                GetAccountResponseDTO tempAccountResponseDTO = new GetAccountResponseDTO(account.getIban(),
+                        account.getBalance(),
+                        account.getCurrency(),
+                        account.getAccountType(),
+                        null,
+                        account.getDrawingAccount().getId(),
+                        null);
+                accountResponseDTOS.add(tempAccountResponseDTO);
+            }
+        }
+
+        return accountResponseDTOS;
     }
 
     public boolean doesAccountHasEnoughMoneyForTransfer(Account senderAccount,SendMoneyRequest sendMoneyRequest){
