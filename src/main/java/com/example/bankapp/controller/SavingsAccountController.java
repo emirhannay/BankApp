@@ -7,10 +7,9 @@ import com.example.bankapp.repository.SavingsAccountMaturityRepository;
 import com.example.bankapp.service.SavingsAccountService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import javax.websocket.server.PathParam;
 
 @RestController
 @RequiredArgsConstructor
@@ -33,6 +32,12 @@ public class SavingsAccountController {
     public ResponseEntity<?> depositMoney(@RequestBody DepositMoneyToSavingAccountRequest depositMoneyToSavingAccountRequest){
         savingsAccountService.depositMoneyToSavingsAccount(depositMoneyToSavingAccountRequest);
         return ResponseEntity.ok().body("The money has been deposited successfully.");
+    }
+
+    @GetMapping("/{iban}")
+    public ResponseEntity<?> getSavingAccountMaturitiesByIban(@PathParam("iban") String iban){
+
+        return ResponseEntity.ok().body(savingsAccountService.getSavingAccountMaturitiesByIban(iban));
     }
 
 

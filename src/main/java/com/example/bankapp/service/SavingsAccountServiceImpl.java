@@ -1,16 +1,16 @@
 package com.example.bankapp.service;
 
 import com.example.bankapp.converter.SavingsAccountConverter;
+import com.example.bankapp.converter.SavingsAccountMaturityConverter;
 import com.example.bankapp.dto.request.CreateSavingsAccountRequestDTO;
-import com.example.bankapp.entity.Customer;
-import com.example.bankapp.entity.SavingsAccount;
-import com.example.bankapp.entity.SavingsAccountMaturity;
-import com.example.bankapp.entity.User;
+import com.example.bankapp.dto.response.GetSavingsAccountMaturityResponseDTO;
+import com.example.bankapp.entity.*;
 import com.example.bankapp.entity.enums.SavingsAccountMaturityStatus;
 import com.example.bankapp.entity.enums.UserType;
 import com.example.bankapp.exception.BusinessServiceOperationException;
 import com.example.bankapp.dto.request.DepositMoneyToSavingAccountRequest;
 import com.example.bankapp.helper.UserHelper;
+import com.example.bankapp.repository.AccountRepository;
 import com.example.bankapp.repository.SavingsAccountMaturityRepository;
 import com.example.bankapp.repository.SavingsAccountRepository;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -30,7 +31,9 @@ public class SavingsAccountServiceImpl implements SavingsAccountService{
     private final SavingsAccountRepository savingsAccountRepository;
     private final UserHelper userHelper;
     private final SavingsAccountMaturityRepository savingsAccountMaturityRepository;
+    private final SavingsAccountMaturityConverter savingsAccountMaturityConverter;
     private final BigDecimal bankRate = BigDecimal.valueOf(5);
+    private final AccountRepository accountRepository;
     @Override
     public void create(CreateSavingsAccountRequestDTO createSavingsAccountRequestDTO) {
         SavingsAccount savingsAccount = savingsAccountConverter.toSavingsAccount(createSavingsAccountRequestDTO);
@@ -65,6 +68,19 @@ public class SavingsAccountServiceImpl implements SavingsAccountService{
             savingsAccountMaturityRepository.save(savingsAccountMaturity);
         }
 
+    }
+
+    @Override
+    public List<GetSavingsAccountMaturityResponseDTO> getSavingAccountMaturitiesByIban(String iban) {
+        SavingsAccount savingsAccount = savingsAccountRepository.findByIban(iban);
+        User loggedInUser = userHelper.getLoggedInUser();
+
+        if( !(savingsAccount.getAccount().getCustomer().getUser() == loggedInUser) &&  !(userHelper.isLoggedInUserAdmin()) ){
+            throw new BusinessServiceOperationException.DepositMoneyToSavingsAccountFailedException("Deposit money failed!");
+        }
+        List<GetSavingsAccountMaturityResponseDTO> savingsAccountMaturities = savingsAccountMaturityRepository.
+                getAllSavingsAccountMaturitiesByIban(iban).stream().map(savingsAccountMaturityConverter::toGetSavingsAccountMaturityResponseDTO).toList();
+        return savingsAccountMaturities;
     }
 
 
