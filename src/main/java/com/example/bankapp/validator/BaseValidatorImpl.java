@@ -13,6 +13,7 @@ import java.util.regex.Pattern;
 public class BaseValidatorImpl implements BaseValidator{
 
     public void doesStringContainsSpaces(String input,String inputName){
+
         Pattern pattern = Pattern.compile("\\s");
         Matcher matcher = pattern.matcher(input);
         boolean found = matcher.find();

@@ -47,5 +47,10 @@ public class AccountController {
         return ResponseEntity.ok().body(accountService.getAllAccounts());
     }
 
+    @GetMapping("/customers/accounts/corporate")
+    public ResponseEntity<?> getAllCorporateAccounts(){
+        return ResponseEntity.ok().body(accountService.getCorporateAccounts());
+    }
+
 
 }

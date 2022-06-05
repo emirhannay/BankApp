@@ -2,16 +2,15 @@ package com.example.bankapp.service;
 
 import com.example.bankapp.converter.AccountConverter;
 import com.example.bankapp.dto.response.GetAccountResponseDTO;
+import com.example.bankapp.dto.response.GetCorporateAccountResponseDTO;
 import com.example.bankapp.entity.Account;
 import com.example.bankapp.entity.Customer;
 import com.example.bankapp.entity.Transfer;
 import com.example.bankapp.entity.User;
 import com.example.bankapp.entity.enums.AccountType;
-import com.example.bankapp.entity.enums.Currency;
 import com.example.bankapp.exception.BaseException;
 import com.example.bankapp.exception.BusinessServiceOperationException;
 import com.example.bankapp.helper.UserHelper;
-import com.example.bankapp.model.ExchangeRateApiData;
 import com.example.bankapp.model.SendMoneyRequest;
 import com.example.bankapp.repository.AccountRepository;
 import com.example.bankapp.repository.CustomerRepository;
@@ -133,6 +132,12 @@ public class AccountServiceImpl implements AccountService{
         }
 
         return accountResponseDTOS;
+    }
+
+    @Override
+    public List<GetCorporateAccountResponseDTO> getCorporateAccounts() {
+        List<GetCorporateAccountResponseDTO> accounts = accountRepository.getCorporateAccounts().stream().map(accountConverter::toGetCorporateAccountResponseDTO).toList();
+        return accounts;
     }
 
     public boolean doesAccountHasEnoughMoneyForTransfer(Account senderAccount,SendMoneyRequest sendMoneyRequest){

@@ -13,8 +13,12 @@ public interface AccountRepository extends JpaRepository<Account,Long> {
     @Query(value = "SELECT * FROM ACCOUNT AS A WHERE A.IBAN = :iban ",nativeQuery = true)
     Optional<Account> findByIban(@Param("iban") String iban);
 
+    @Query(value = "SELECT * FROM ACCOUNT AS A WHERE A.ACCOUNT_TYPE = 'CORPORATE' ",nativeQuery = true)
+    List<Account> getCorporateAccounts();
+
     @Query(value = "SELECT * FROM ACCOUNT AS A WHERE A.CUSTOMER_ID = :customerId",nativeQuery = true)
     List<Account> getAllAccountsByCustomerId(@Param("customerId") Long customerId);
+
 
 
 
