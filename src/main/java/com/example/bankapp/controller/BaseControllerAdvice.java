@@ -32,7 +32,7 @@ public class BaseControllerAdvice {
     public ResponseEntity<?> onBaseExceptionHandled(ConstraintViolationException constraintViolationException) {
         return ResponseEntity.badRequest().body(new ApiError("Unique değer girilmelidir"));
     }
-    @ResponseStatus(value = HttpStatus.)
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     @ExceptionHandler(NullPointerException.class)
     public ResponseEntity<?> onBaseExceptionHandled(NullPointerException nullPointerException) {
         return ResponseEntity.badRequest().body(new ApiError(nullPointerException.getMessage()));
