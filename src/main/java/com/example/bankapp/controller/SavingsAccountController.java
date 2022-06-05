@@ -35,7 +35,7 @@ public class SavingsAccountController {
     }
 
     @GetMapping("/{iban}")
-    public ResponseEntity<?> getSavingAccountMaturitiesByIban(@PathParam("iban") String iban){
+    public ResponseEntity<?> getSavingAccountMaturitiesByIban(@RequestParam(name = "iban",required = false) String iban){
 
         return ResponseEntity.ok().body(savingsAccountService.getSavingAccountMaturitiesByIban(iban));
     }

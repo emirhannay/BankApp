@@ -35,7 +35,7 @@ public class AccountController {
     }
 
     @GetMapping("/customers/accounts/transfers")
-    public ResponseEntity<?> getAccountsByCustomerId(@RequestParam(name = "iban",required = false) String iban){
+    public ResponseEntity<?> getTransfersByIban(@RequestParam(name = "iban",required = false) String iban){
 
         return ResponseEntity.ok().body(transferService.getAccountActivities(iban));
 
