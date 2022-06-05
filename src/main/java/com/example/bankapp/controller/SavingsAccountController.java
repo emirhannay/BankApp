@@ -33,7 +33,6 @@ public class SavingsAccountController {
     public ResponseEntity<?> depositMoney(@RequestBody DepositMoneyToSavingAccountRequest depositMoneyToSavingAccountRequest){
         savingsAccountService.depositMoneyToSavingsAccount(depositMoneyToSavingAccountRequest);
         return ResponseEntity.ok().body("The money has been deposited successfully.");
-
     }
 
 

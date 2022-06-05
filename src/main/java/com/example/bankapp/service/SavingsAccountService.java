@@ -6,4 +6,5 @@ import com.example.bankapp.dto.request.DepositMoneyToSavingAccountRequest;
 public interface SavingsAccountService {
     void create(CreateSavingsAccountRequestDTO createSavingsAccountRequestDTO);
     void depositMoneyToSavingsAccount(DepositMoneyToSavingAccountRequest depositMoneyToSavingAccountRequest);
+
 }
