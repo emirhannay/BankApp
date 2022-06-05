@@ -42,7 +42,7 @@ public class CardServiceImpl implements CardService {
             throw new BusinessServiceOperationException.GetCreditCardFailedException("Get credit card failed");
         }
 
-        List<GetCardResponseDTO> cards = cardRepository.findAll().stream().map(cardConverter::toGetCardResponseDTO).toList();
+        List<GetCardResponseDTO> cards = cardRepository.getCardsByCustomerId(customerId).stream().map(cardConverter::toGetCardResponseDTO).toList();
         return cards;
     }
 }
