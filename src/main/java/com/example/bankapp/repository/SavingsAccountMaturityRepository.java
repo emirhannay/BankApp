@@ -13,7 +13,11 @@ public interface SavingsAccountMaturityRepository extends JpaRepository<SavingsA
 
     @Query(value = "SELECT * FROM SAVINGS_ACCOUNT_MATURITY AS A WHERE END_DATE < :date AND SAVINGS_ACCOUNT_MATURITY_STATUS = 'PENDING'",nativeQuery = true)
     List<SavingsAccountMaturity> getAllSavingsAccountMaturitiesByEndDateAndStatus(@Param("date") Date date);
-    @Query(value = "SELECT * FROM SAVINGS_ACCOUNT_MATURITY AS S INNER JOIN ACCOUNT AS A INNER JOIN SAVINGS_ACCOUNT AS U" +
-            " ON S.SAVINGS_ACCOUNT_ID = U.ID AND U.ACCOUNT_ID = A.ID WHERE A.IBAN = :iban",nativeQuery = true)
+
+    @Query(value = "SELECT * FROM SAVINGS_ACCOUNT_MATURITY AS S INNER JOIN SAVINGS_ACCOUNT AS U" +
+                   " ON S.SAVINGS_ACCOUNT_ID = U.ID" +
+                   "INNER JOIN ACCOUNT AS A " +
+                   " ON U.ACCOUNT_ID = A.ID" +
+                   " WHERE A.IBAN = :iban",nativeQuery = true)
     List<SavingsAccountMaturity> getAllSavingsAccountMaturitiesByIban(@Param("iban") String iban);
 }
