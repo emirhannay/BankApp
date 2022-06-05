@@ -4,6 +4,7 @@ import com.example.bankapp.converter.PaymentConverter;
 import com.example.bankapp.dto.request.PayRequestDTO;
 import com.example.bankapp.entity.*;
 import com.example.bankapp.entity.enums.CardType;
+import com.example.bankapp.entity.enums.Currency;
 import com.example.bankapp.exception.BaseException;
 import com.example.bankapp.exception.BusinessServiceOperationException;
 import com.example.bankapp.repository.*;
@@ -92,6 +93,7 @@ public class PaymentServiceImpl implements PaymentService{
                 creditCard.setCurrentDebt(creditCard.getCurrentDebt().subtract(moneyToBeSent));
                 receiverAccount.setBalance(receiverAccount.getBalance().add(moneyToBeSent));
                 Payment payment = paymentConverter.toPayment(payRequestDTO);
+                payment.setCurrency(Currency.TRY);
                 accountRepository.save(receiverAccount);
                 creditCardRepository.save(creditCard);
                 paymentRepository.save(payment);
