@@ -34,7 +34,7 @@ public class SavingsAccountController {
         return ResponseEntity.ok().body("The money has been deposited successfully.");
     }
 
-    @GetMapping("/{iban}")
+    @GetMapping()
     public ResponseEntity<?> getSavingAccountMaturitiesByIban(@RequestParam(name = "iban",required = false) String iban){
 
         return ResponseEntity.ok().body(savingsAccountService.getSavingAccountMaturitiesByIban(iban));
