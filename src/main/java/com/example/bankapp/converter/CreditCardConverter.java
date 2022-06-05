@@ -1,6 +1,7 @@
 package com.example.bankapp.converter;
 
 import com.example.bankapp.core.utils.CreatorService;
+import com.example.bankapp.dto.response.GetCreditCardResponseDTO;
 import com.example.bankapp.entity.Card;
 import com.example.bankapp.entity.CreditCard;
 import com.example.bankapp.entity.Customer;
@@ -41,5 +42,18 @@ public class CreditCardConverter {
         card.setCardType(CardType.CREDIT);
         creditCard.setCard(card);
         return creditCard;
+    }
+
+    public GetCreditCardResponseDTO toGetCreditCardResponseDto(CreditCard creditCard){
+
+        return new GetCreditCardResponseDTO(creditCard.getCardLimit(),
+                creditCard.getLastOutstandingBalance(),
+                creditCard.getCurrentDebt(),
+                creditCard.getAvailableLimit(),
+                creditCard.getCutoffDate(),
+                creditCard.getNextCutoffDate(),
+                creditCard.getPaymentDueDate(),
+                creditCard.getNextPaymentDueDate(),
+                creditCard.getCreditCardStatus());
     }
 }

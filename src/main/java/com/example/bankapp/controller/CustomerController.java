@@ -19,7 +19,6 @@ public class CustomerController {
     private final CustomerService customerService;
     private final CustomerConverter customerConverter;
 
-
     @GetMapping("/{id}")
     ResponseEntity<?> getCustomer(@PathVariable Long id) {
         return ResponseEntity.ok().body(customerConverter.

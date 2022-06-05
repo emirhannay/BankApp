@@ -85,6 +85,16 @@ public final class BusinessServiceOperationException {
             super(message);
         }
     }
+    public static class CreditCardNotFoundException extends BaseException {
+        public CreditCardNotFoundException(String message) {
+            super(message);
+        }
+    }
+    public static class GetCreditCardFailedException extends BaseException {
+        public GetCreditCardFailedException(String message) {
+            super(message);
+        }
+    }
 
 
 

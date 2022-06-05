@@ -1,7 +1,7 @@
 package com.example.bankapp.service;
 
 import com.example.bankapp.converter.CreditCardConverter;
-import com.example.bankapp.converter.CustomerConverter;
+import com.example.bankapp.dto.response.GetCreditCardResponseDTO;
 import com.example.bankapp.entity.Card;
 import com.example.bankapp.entity.CreditCard;
 import com.example.bankapp.entity.Customer;
@@ -33,7 +33,7 @@ public class CreditCardServiceImpl implements CreditCardService {
         );
         User creditCardUser = creditCardCustomer.getUser();
         User loggedInUser = userHelper.getLoggedInUser();
-        Card card = cardRepository.findByCustomerId(customerId);
+        Card card = cardRepository.findCreditCardByCustomerId(customerId);
         if(card != null) {
             throw new BusinessServiceOperationException.CreateCreditCardException("Create credit card failed");
         }
@@ -47,5 +47,18 @@ public class CreditCardServiceImpl implements CreditCardService {
             throw new BusinessServiceOperationException.CreateCreditCardException("Create credit card failed");
         }
 
+    }
+
+    @Override
+    public GetCreditCardResponseDTO getCreditCardByCustomerId(Long customerId) {
+        CreditCard creditCard = creditCardRepository.findByCustomerId(customerId).orElseThrow(
+                ()-> new BusinessServiceOperationException.CreditCardNotFoundException("Credit card not found")
+        );
+        User loggedInUser = userHelper.getLoggedInUser();
+        if( !(creditCard.getCard().getCustomer().getUser() == loggedInUser) &  !(userHelper.isLoggedInUserAdmin()) ){
+            throw new BusinessServiceOperationException.GetCreditCardFailedException("Get credit card failed");
+        }
+        GetCreditCardResponseDTO getCreditCardResponseDTO = creditCardConverter.toGetCreditCardResponseDto(creditCard);
+        return getCreditCardResponseDTO;
     }
 }

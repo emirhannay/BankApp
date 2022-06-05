@@ -20,6 +20,7 @@ public class SavingsAccountController {
     private final SavingsAccountService savingsAccountService;
     private final SavingsAccountMaturityRepository savingsAccountMaturityRepository;
 
+    //Creates a savings account
     @PostMapping
     public ResponseEntity<?> create(@RequestBody CreateSavingsAccountRequestDTO createSavingsAccountRequestDTO){
         savingsAccountService.create(createSavingsAccountRequestDTO);
@@ -27,6 +28,7 @@ public class SavingsAccountController {
         return ResponseEntity.ok().body("Savings account is created successfully");
 
     }
+    //Deposits money into savings account
     @PostMapping("/deposit")
     public ResponseEntity<?> depositMoney(@RequestBody DepositMoneyToSavingAccountRequest depositMoneyToSavingAccountRequest){
         savingsAccountService.depositMoneyToSavingsAccount(depositMoneyToSavingAccountRequest);

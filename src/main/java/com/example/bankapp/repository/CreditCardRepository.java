@@ -17,4 +17,7 @@ public interface CreditCardRepository extends JpaRepository<CreditCard,Long> {
 
     @Query(value = "SELECT * FROM CREDIT_CARD AS C WHERE C.CARD_ID = :cardId",nativeQuery = true)
     Optional<CreditCard> findByCardId(@Param("cardId") Long cardId);
+
+    @Query(value = "SELECT * FROM CREDIT_CARD AS C INNER JOIN CARD AS A ON C.CARD_ID = A.ID WHERE A.CUSTOMER_ID = :customerId0",nativeQuery = true)
+    Optional<CreditCard> findByCustomerId(@Param("customerId") Long customerId);
 }
