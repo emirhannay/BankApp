@@ -16,12 +16,14 @@ public class PayRequestDTOValidator implements Validator<PayRequestDTO> {
 
     @Override
     public void validate(PayRequestDTO payRequestDTO) throws BaseValidationException {
-                baseValidator.doesStringContainsSpaces(payRequestDTO.senderCardNo(),"The card number cannot contain spaces.");
-                baseValidator.doesStringContainsSpaces(payRequestDTO.receiverIban(),"The receiver iban cannot contain spaces.");
-                baseValidator.doesStringContainsSpaces(payRequestDTO.cvv(),"The cvv cannot contain spaces.");
-                if(payRequestDTO.amount().compareTo(BigDecimal.ZERO) == -1  || payRequestDTO.amount().compareTo(BigDecimal.ZERO) == 0  ){
-                    throw new BaseValidationException("Amount must be greater than 0");
-                }
+                baseValidator.doesStringContainsSpaces(payRequestDTO.senderCardNo(),"Sender Card No");
+                baseValidator.doesStringContainsSpaces(payRequestDTO.receiverIban(),"Receiver Iban");
+                baseValidator.doesStringContainsSpaces(payRequestDTO.cvv(),"Cvv");
 
+                baseValidator.isTheStringNullOrEmpty(payRequestDTO.senderCardNo(),"Sender Card No");
+                baseValidator.isTheStringNullOrEmpty(payRequestDTO.receiverIban(),"Receiver Iban");
+                baseValidator.isTheStringNullOrEmpty(payRequestDTO.senderCardNo(),"Sender Card No");
+
+                baseValidator.isZeroOrLessThanZero(payRequestDTO.amount(),"Amount");
     }
 }
