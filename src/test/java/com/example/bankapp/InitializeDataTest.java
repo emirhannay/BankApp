@@ -17,10 +17,10 @@ public class InitializeDataTest {
     @Autowired
     private RoleRepository roleRepository;
 
-    /*
+
     @Test
     public void testLoadDataForTestCase() {
         List<Role> roles = roleRepository.findAll();
         Assertions.assertEquals(2,roles.size());
-    }*/
+    }
 }
