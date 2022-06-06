@@ -1,4 +1,4 @@
-/*INSERT INTO ROLE (name) VALUES ('ADMIN');
+INSERT INTO ROLE (name) VALUES ('ADMIN');
 INSERT INTO ROLE (name) VALUES ('CUSTOMER');
 INSERT INTO USERS (email,password,name,phone_number,user_type,user_status,is_deleted,created_at)
 VALUES ('emirhan@gmail.com','$2a$10$ReWLWNLk6iSPWZ1z6tVv1efkk0qgONxAoZaD6BJ8I80qe0ykfLqma',
@@ -14,4 +14,4 @@ INSERT INTO ACCOUNT (iban,balance,currency,customer_id,account_type) VALUES ('TR
 INSERT INTO USER_ROLE (user_id,role_id) VALUES ('2','1');
 INSERT INTO CARD (card_no,expiration_date,cvv,card_type,customer_id) VALUES ('1900458325679396','2032-06-02','738','BANK','1');
 INSERT INTO BANK_CARD (CARD_ID) VALUES ('1');
-INSERT INTO DRAWING_ACCOUNT (ACCOUNT_ID,BANK_CARD_ID) VALUES ('1','1')*/
+INSERT INTO DRAWING_ACCOUNT (ACCOUNT_ID,BANK_CARD_ID) VALUES ('1','1')
