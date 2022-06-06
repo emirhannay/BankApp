@@ -28,7 +28,10 @@ public class BaseValidatorImpl implements BaseValidator{
             throw new BaseValidationException(inputName+" can not be null or empty");
         }
     }
-    public void isZeroOrLessThanZero(BigDecimal input, String inputName){
+    public void isZeroOrLessThanZeroOrNull(BigDecimal input, String inputName){
+        if(input == null){
+            throw new BaseValidationException(inputName+" can not be null");
+        }
         if(input.compareTo(BigDecimal.ZERO) == -1  || input.compareTo(BigDecimal.ZERO) == 0  ){
             throw new BaseValidationException(inputName+" must be greater than 0");
         }

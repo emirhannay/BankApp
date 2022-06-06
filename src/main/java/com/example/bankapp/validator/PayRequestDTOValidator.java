@@ -4,9 +4,6 @@ import com.example.bankapp.dto.request.PayRequestDTO;
 import com.example.bankapp.exception.BaseValidationException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
-
-import java.math.BigDecimal;
 
 @Component
 @RequiredArgsConstructor
@@ -25,6 +22,6 @@ public class PayRequestDTOValidator implements Validator<PayRequestDTO> {
             baseValidator.doesStringContainsSpaces(payRequestDTO.receiverIban(),"Receiver Iban");
             baseValidator.doesStringContainsSpaces(payRequestDTO.cvv(),"Cvv");
 
-            baseValidator.isZeroOrLessThanZero(payRequestDTO.amount(),"Amount");
+            baseValidator.isZeroOrLessThanZeroOrNull(payRequestDTO.amount(),"Amount");
     }
 }
