@@ -23,7 +23,7 @@ public class BaseValidatorImpl implements BaseValidator{
         }
     };
     public void isTheStringNullOrEmpty(String input,String inputName){
-        if(!(StringUtils.isEmpty(input))){
+        if(StringUtils.isEmpty(input) == true){
             throw new BaseValidationException(inputName+" can not be null or empty");
         }
     }
