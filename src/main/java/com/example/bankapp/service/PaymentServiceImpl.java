@@ -31,6 +31,7 @@ public class PaymentServiceImpl implements PaymentService{
     private final DrawingAccountRepository drawingAccountRepository;
     private final AccountRepository accountRepository;
     private final CreditCardRepository creditCardRepository;
+    private final TransferRepository transferRepository;
 
     @Override
     @Transactional(rollbackOn = {BaseException.class, SQLException.class})
@@ -74,6 +75,7 @@ public class PaymentServiceImpl implements PaymentService{
                 transfer.setCurrency(receiverAccount.getCurrency());
                 transfer.setReceiverIban(receiverAccount.getIban());
                 transfer.setDescription("Online Shopping");
+                transferRepository.save(transfer);
                 paymentRepository.save(payment);
                 log.info("Payment was successful");
             }
