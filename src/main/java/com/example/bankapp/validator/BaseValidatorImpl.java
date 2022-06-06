@@ -19,11 +19,12 @@ public class BaseValidatorImpl implements BaseValidator{
         Matcher matcher = pattern.matcher(input);
         boolean found = matcher.find();
         if(found == true){
-            throw new BaseValidationException("The "+" cannot contain spaces.");
+            throw new BaseValidationException("The "+inputName+" cannot contain spaces.");
         }
     };
     public void isTheStringNullOrEmpty(String input,String inputName){
         if(StringUtils.isEmpty(input) == true){
+
             throw new BaseValidationException(inputName+" can not be null or empty");
         }
     }

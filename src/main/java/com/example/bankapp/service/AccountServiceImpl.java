@@ -2,6 +2,7 @@ package com.example.bankapp.service;
 
 import com.example.bankapp.converter.AccountConverter;
 import com.example.bankapp.dto.response.GetAccountResponseDTO;
+import com.example.bankapp.dto.response.GetAccountsResponseDTO;
 import com.example.bankapp.dto.response.GetCorporateAccountResponseDTO;
 import com.example.bankapp.entity.Account;
 import com.example.bankapp.entity.Customer;
@@ -93,8 +94,8 @@ public class AccountServiceImpl implements AccountService{
     }
 
     @Override
-    public List<GetAccountResponseDTO> getAllAccounts() {
-        List<GetAccountResponseDTO> accounts = accountRepository.findAll().stream().map(accountConverter::toGetAccountResponseDto).toList();
+    public List<GetAccountsResponseDTO> getAllAccounts() {
+        List<GetAccountsResponseDTO> accounts = accountRepository.findAll().stream().map(accountConverter::toGetAccountsResponseDto).toList();
         return accounts;
     }
 

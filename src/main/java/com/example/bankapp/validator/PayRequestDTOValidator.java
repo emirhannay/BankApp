@@ -20,6 +20,7 @@ public class PayRequestDTOValidator implements Validator<PayRequestDTO> {
             baseValidator.isTheStringNullOrEmpty(payRequestDTO.receiverIban(),"Receiver Iban");
             baseValidator.isTheStringNullOrEmpty(payRequestDTO.cvv(),"Cvv");
 
+
             baseValidator.doesStringContainsSpaces(payRequestDTO.senderCardNo(),"Sender Card No");
             baseValidator.doesStringContainsSpaces(payRequestDTO.receiverIban(),"Receiver Iban");
             baseValidator.doesStringContainsSpaces(payRequestDTO.cvv(),"Cvv");
