@@ -9,6 +9,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.Pattern;
 import java.util.*;
 
 @Entity
@@ -18,6 +19,7 @@ import java.util.*;
 public class User extends BaseExtendedModel {
 
     @Column(nullable = false,unique = true)
+    @Pattern(regexp = "\\b[\\w.%-]+@[-.\\w]+\\.[A-Za-z]{2,4}\\b", flags = Pattern.Flag.UNICODE_CASE, message = "Email format is not acceptable")
     private String email;
     @Column(nullable = false)
     private String password;

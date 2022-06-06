@@ -4,6 +4,7 @@ import com.example.bankapp.exception.BaseException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -37,6 +38,11 @@ public class BaseControllerAdvice {
     public ResponseEntity<?> onBaseExceptionHandled(NullPointerException nullPointerException) {
         return ResponseEntity.badRequest().body(new ApiError(nullPointerException.getMessage()));
     }
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<?> handleMethodArgumentNotValidException(MethodArgumentNotValidException methodArgumentNotValidException){
+        return ResponseEntity.badRequest().body(new ApiError(methodArgumentNotValidException.getFieldError().getDefaultMessage()));
+    }
+
     public static record ApiError(String errorMessage) {
     }
 

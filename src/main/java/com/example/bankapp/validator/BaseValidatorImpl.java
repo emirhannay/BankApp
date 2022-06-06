@@ -2,6 +2,7 @@ package com.example.bankapp.validator;
 
 
 import com.example.bankapp.exception.BaseValidationException;
+
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
@@ -22,7 +23,7 @@ public class BaseValidatorImpl implements BaseValidator{
         }
     };
     public void isTheStringNullOrEmpty(String input,String inputName){
-        if(!(StringUtils.hasText(input))){
+        if(!(StringUtils.isEmpty(input))){
             throw new BaseValidationException(inputName+" can not be null or empty");
         }
     }

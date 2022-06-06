@@ -16,14 +16,14 @@ public class PayRequestDTOValidator implements Validator<PayRequestDTO> {
 
     @Override
     public void validate(PayRequestDTO payRequestDTO) throws BaseValidationException {
-                baseValidator.doesStringContainsSpaces(payRequestDTO.senderCardNo(),"Sender Card No");
-                baseValidator.doesStringContainsSpaces(payRequestDTO.receiverIban(),"Receiver Iban");
-                baseValidator.doesStringContainsSpaces(payRequestDTO.cvv(),"Cvv");
+            baseValidator.isTheStringNullOrEmpty(payRequestDTO.senderCardNo(),"Sender Card No");
+            baseValidator.isTheStringNullOrEmpty(payRequestDTO.receiverIban(),"Receiver Iban");
+            baseValidator.isTheStringNullOrEmpty(payRequestDTO.senderCardNo(),"Sender Card No");
 
-                baseValidator.isTheStringNullOrEmpty(payRequestDTO.senderCardNo(),"Sender Card No");
-                baseValidator.isTheStringNullOrEmpty(payRequestDTO.receiverIban(),"Receiver Iban");
-                baseValidator.isTheStringNullOrEmpty(payRequestDTO.senderCardNo(),"Sender Card No");
+            baseValidator.doesStringContainsSpaces(payRequestDTO.senderCardNo(),"Sender Card No");
+            baseValidator.doesStringContainsSpaces(payRequestDTO.receiverIban(),"Receiver Iban");
+            baseValidator.doesStringContainsSpaces(payRequestDTO.cvv(),"Cvv");
 
-                baseValidator.isZeroOrLessThanZero(payRequestDTO.amount(),"Amount");
+            baseValidator.isZeroOrLessThanZero(payRequestDTO.amount(),"Amount");
     }
 }
