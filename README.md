@@ -1,6 +1,5 @@
 # About Project
 This Project is Patika-Norma Spring Bootcamp assignment.
-You can test it from this >>>>> [LINK](https://emir-bank-frontend.herokuapp.com/login) <<<<<
 # Project features
 - Role based authorization (For ex : Admin and Customer have different authorities )
 - Basic authentication
